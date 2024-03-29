@@ -13,7 +13,7 @@ class TwitterLogin extends Component {
 
   onButtonClick(e) {
     e.preventDefault();
-    return this.getRequestToken();
+    return this.authenticate();
   }
 
   getHeaders() {
@@ -22,31 +22,21 @@ class TwitterLogin extends Component {
     return headers;
   }
 
-  getRequestToken() {
+  authenticate() {
     var popup = this.openPopup();
 
     return window
       .fetch(this.props.requestTokenUrl, {
         method: "POST",
         credentials: this.props.credentials,
-        headers: this.getHeaders()
+        headers: this.getHeaders(),
+        redirect: "follow"
       })
       .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        let authenticationUrl = `https://api.twitter.com/oauth/authenticate?oauth_token=${
-          data.oauth_token
-        }&force_login=${this.props.forceLogin}`;
-
-        if (this.props.screenName) {
-          authenticationUrl = `${authenticationUrl}&screen_name=${
-            this.props.screenName
-          }`;
+        if(response.redirected){
+          popup.location = response.url;
+          this.polling(popup);
         }
-
-        popup.location = authenticationUrl;
-        this.polling(popup);
       })
       .catch(error => {
         popup.close();
@@ -88,7 +78,7 @@ class TwitterLogin extends Component {
 
       try {
         if (
-          !popup.location.hostname.includes("api.twitter.com") &&
+          !popup.location.hostname.includes("localhost") &&
           !popup.location.hostname == ""
         ) {
           if (popup.location.search) {
@@ -98,7 +88,7 @@ class TwitterLogin extends Component {
             const oauthVerifier = query.get("oauth_verifier");
 
             closeDialog();
-            return this.getOauthToken(oauthVerifier, oauthToken);
+            return this.getOauthToken();
           } else {
             closeDialog();
             return this.props.onFailure(
@@ -117,24 +107,19 @@ class TwitterLogin extends Component {
     }, 500);
   }
 
-  getOauthToken(oAuthVerifier, oauthToken) {
-    return window
-      .fetch(
-        `${
-          this.props.loginUrl
-        }?oauth_verifier=${oAuthVerifier}&oauth_token=${oauthToken}`,
-        {
-          method: "POST",
-          credentials: this.props.credentials,
-          headers: this.getHeaders()
-        }
-      )
-      .then(response => {
-        this.props.onSuccess(response);
-      })
-      .catch(error => {
-        return this.props.onFailure(error);
-      });
+  getOauthToken(){
+    const options = {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'default'
+    }
+    fetch(this.props.loginUrl, options)
+    .then(response => {
+      this.props.onSuccess(response);
+    })
+    .catch(error => {
+      return this.props.onFailure(error);
+    })
   }
 
   getDefaultButtonContent() {
