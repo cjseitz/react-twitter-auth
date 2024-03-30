@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1711754797694" clover="3.2.0">
-  <project timestamp="1711754797694" name="All files">
+<coverage generated="1711764095953" clover="3.2.0">
+  <project timestamp="1711764095953" name="All files">
     <metrics statements="46" coveredstatements="8" conditionals="17" coveredconditionals="2" methods="15" coveredmethods="3" elements="78" coveredelements="13" complexity="0" loc="46" ncloc="46" packages="1" files="1" classes="1">
       <file name="index.js" path="C:\Users\cjsei\react-twitter-auth-fork\react-twitter-auth\src\index.js">
         <metrics statements="46" coveredstatements="8" conditionals="17" coveredconditionals="2" methods="15" coveredmethods="3"/>
