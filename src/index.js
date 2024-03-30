@@ -64,6 +64,7 @@ class TwitterLogin extends Component {
   }
 
   polling(popup) {
+    console.log("Reached polling")
     const polling = setInterval(() => {
       if (!popup || popup.closed || popup.closed === undefined) {
         clearInterval(polling);
@@ -81,6 +82,7 @@ class TwitterLogin extends Component {
           !popup.location.hostname == ""
         ) {
           if (popup.location.search) {
+            console.log("Searching popup location")
             const query = new URLSearchParams(popup.location.search);
 
             const oauthToken = query.get("oauth_token");
