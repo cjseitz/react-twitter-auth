@@ -31,12 +31,9 @@ class TwitterLogin extends Component {
         credentials: this.props.credentials
       })
       .then(response => {
-        console.log("reached response");
-        response.json()
+        response.json().authorizationURL
       })
       .then(data => {
-        console.log(data);
-        console.log(data.authorizationURL);
       let authorizationUrl = data.authorizationURL;
       if (!authorizationUrl) {
         throw new Error("Authorization URL not found in response");
