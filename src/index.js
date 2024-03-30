@@ -30,9 +30,9 @@ class TwitterLogin extends Component {
         method: "POST",
         credentials: this.props.credentials
       })
-      .then(response => {
-        response.json();
-      })
+      .then(response =>
+        response.json()
+      )
       .then(data => {
       let authorizationUrl = data.authorizationURL;
       if (!authorizationUrl) {
@@ -125,7 +125,7 @@ class TwitterLogin extends Component {
     })
     .catch(error => {
       return this.props.onFailure(error);
-    })
+    });
   }
 
   getDefaultButtonContent() {
