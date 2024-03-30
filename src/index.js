@@ -29,7 +29,7 @@ class TwitterLogin extends Component {
       .fetch(this.props.requestTokenUrl, {
         method: "POST",
         credentials: this.props.credentials,
-        redirect: "follow"
+        redirect: "manual"
       })
       .then(response => {
         response.location.text()
