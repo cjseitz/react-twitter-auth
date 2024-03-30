@@ -28,9 +28,9 @@
     "url": "https://github.com/GenFirst/react-twitter-auth/issues"
   },
   "peerDependencies": {
+    "prop-types": "> 15.5.0 < 17",
     "react": "> 15.5.0 < 17",
-    "react-dom": "> 15.5.0 < 17",
-    "prop-types": "> 15.5.0 < 17"
+    "react-dom": "> 15.5.0 < 17"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
@@ -55,7 +55,7 @@
     "react": "^15.5.4",
     "react-addons-test-utils": "^15.6.0",
     "react-dom": "^15.5.0",
-    "webpack": "3.5.5"
+    "webpack": "^3.5.5"
   },
   "dependencies": {
     "react-icons": "^2.2.5",
