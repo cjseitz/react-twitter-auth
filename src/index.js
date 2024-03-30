@@ -22,36 +22,46 @@ class TwitterLogin extends Component {
     return headers;
   }
 
+  checkStatus(response) {
+    if (response.status >= 200 && response.status < 300) {
+      return response
+    } else {
+      var error = new Error(response.statusText)
+      error.response = response
+      throw error
+    }
+  }
+  
+
   authenticate() {
     var popup = this.openPopup();
 
-    return window
-      .fetch(this.props.requestTokenUrl, {
-        headers: this.getHeaders(),
+    //removed window.fetch
+    return fetch(this.props.requestTokenUrl, {
         method: "POST",
-        credentials: this.props.credentials
+        credentials: this.props.credentials,
+        headers: this.getHeaders()
       })
-      .then(response => {
-        if(response.ok){
-          response.json();
-        }
-        else throw Error("Error with json response");
+      .then(function(status) {return checkStatus(status);})
+      .then(function(response){
+        return response.json();
       })
-      .then(data => {
+      .then(function(data){
+        console.log(data);
         console.log(data.url);
-      let authorizationUrl = data.url;
-      console.log(authorizationUrl);
-      if (!authorizationUrl) {
-        throw new Error("Authorization URL not found in response");
-      }
-      popup.location = authorizationUrl;
-      console.log(popup.location);
-      this.polling(popup);
-    })
-    .catch(error => {
-      popup.close();
-      return this.props.onFailure(error);
-    });
+        const authorizationUrl = data.url;
+        console.log(authorizationUrl);
+        if (!authorizationUrl) {
+          throw new Error("Authorization URL not found in response");
+        }
+        popup.location = authorizationUrl;
+        console.log(popup.location);
+        this.polling(popup);
+      })
+      .catch(error => {
+        popup.close();
+        return this.props.onFailure(error);
+      });
   }
 
   openPopup() {
