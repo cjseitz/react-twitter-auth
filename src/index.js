@@ -29,11 +29,13 @@ class TwitterLogin extends Component {
       .fetch(this.props.requestTokenUrl, {
         method: "POST",
         credentials: this.props.credentials,
-        mode: "no-cors",
-        redirect: "manual"
+        redirect: "follow"
       })
       .then(response => {
-        console.log(response)
+        console.log(response.location)
+      })
+      .then(authenticationUrl => {
+        popup.location.href = authenticationUrl.location;
       })
       .catch(error => {
         popup.close();
