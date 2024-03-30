@@ -28,15 +28,14 @@ class TwitterLogin extends Component {
     return window
       .fetch(this.props.requestTokenUrl, {
         method: "POST",
-        mode: "no-cors",
         credentials: this.props.credentials,
         redirect: "follow"
       })
       .then(response => {
-        console.log(response.location)
+        response.location.text()
       })
       .then(authenticationUrl => {
-        popup.location.href = authenticationUrl.location;
+        popup.location.href = authenticationUrl;
       })
       .catch(error => {
         popup.close();
