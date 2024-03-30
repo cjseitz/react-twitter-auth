@@ -31,10 +31,14 @@ class TwitterLogin extends Component {
         credentials: this.props.credentials
       })
       .then(response => {
-        JSON.parse(response.json());
+        response.json();
       })
-      .then(authenticationUrl => {
-        popup.location = authenticationUrl.authorizationURL;
+      .then(date => {
+      let authorizationUrl = data.authorizationURL; // Assuming this is the key in the JSON response
+      if (!authorizationUrl) {
+        throw new Error("Authorization URL not found in response");
+      }
+      popup.location = authorizationUrl; // Set the popup URL
       })
       .catch(error => {
         popup.close();
