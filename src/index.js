@@ -27,6 +27,7 @@ class TwitterLogin extends Component {
 
     return window
       .fetch(this.props.requestTokenUrl, {
+        headers: this.getHeaders(),
         method: "POST",
         credentials: this.props.credentials
       })
