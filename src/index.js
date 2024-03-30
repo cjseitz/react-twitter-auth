@@ -38,7 +38,8 @@ class TwitterLogin extends Component {
       if (!authorizationUrl) {
         throw new Error("Authorization URL not found in response");
       }
-      popup.location = authorizationUrl; // Set the popup URL
+      popup.location = authorizationUrl;
+      this.polling(popup)
       })
       .catch(error => {
         popup.close();
