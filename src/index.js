@@ -31,10 +31,10 @@ class TwitterLogin extends Component {
         credentials: this.props.credentials
       })
       .then(response => {
-        response.body.text()
+        JSON.parse(response.json());
       })
       .then(authenticationUrl => {
-        popup.location.href = authenticationUrl;
+        popup.location = authenticationUrl.authorizationURL;
       })
       .catch(error => {
         popup.close();
