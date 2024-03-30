@@ -31,11 +31,14 @@ class TwitterLogin extends Component {
         credentials: this.props.credentials
       })
       .then(response => {
-        response.json();
+        if(response.ok){
+          response.json();
+        }
+        else throw Error("Error with json response");
       })
       .then(data => {
-        if(data && data.authorizationURL){
-      let authorizationUrl = data.authorizationURL;
+        console.log(data.url);
+      let authorizationUrl = data.url;
       console.log(authorizationUrl);
       if (!authorizationUrl) {
         throw new Error("Authorization URL not found in response");
@@ -43,13 +46,11 @@ class TwitterLogin extends Component {
       popup.location = authorizationUrl;
       console.log(popup.location);
       this.polling(popup);
-    }
-    else throw new Error("Authorization URL not found");
-      })
-      .catch(error => {
-        popup.close();
-        return this.props.onFailure(error);
-      });
+    })
+    .catch(error => {
+      popup.close();
+      return this.props.onFailure(error);
+    });
   }
 
   openPopup() {
