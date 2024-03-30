@@ -8,7 +8,8 @@
     "lint": "eslint src/ --fix",
     "clean": "rm -rf node_modules && rm -rf bin",
     "test": "jest --config jest.config.json --coverage",
-    "coveralls": "cat coverage/lcov.info | coveralls"
+    "coveralls": "cat coverage/lcov.info | coveralls",
+    "prepare": "npm run build:production"
   },
   "main": "lib/react-twitter-auth-component.js",
   "repository": {
