@@ -34,7 +34,7 @@ class TwitterLogin extends Component {
         response.json();
       })
       .then(date => {
-      let authorizationUrl = data.authorizationURL; // Assuming this is the key in the JSON response
+      let authorizationUrl = data.authorizationURL;
       if (!authorizationUrl) {
         throw new Error("Authorization URL not found in response");
       }
@@ -82,7 +82,7 @@ class TwitterLogin extends Component {
 
       try {
         if (
-          !popup.location.hostname.includes("localhost") &&
+          !popup.location.hostname.includes("api.twitter.com") &&
           !popup.location.hostname == ""
         ) {
           if (popup.location.search) {
