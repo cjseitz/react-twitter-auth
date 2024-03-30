@@ -34,6 +34,7 @@ class TwitterLogin extends Component {
         response.json();
       })
       .then(data => {
+        if(data && data.authorizationURL){
       let authorizationUrl = data.authorizationURL;
       console.log(authorizationUrl);
       if (!authorizationUrl) {
@@ -42,6 +43,8 @@ class TwitterLogin extends Component {
       popup.location = authorizationUrl;
       console.log(popup.location);
       this.polling(popup);
+    }
+    else throw new Error("Authorization URL not found");
       })
       .catch(error => {
         popup.close();
