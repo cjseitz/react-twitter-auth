@@ -31,12 +31,12 @@ class TwitterLogin extends Component {
         credentials: this.props.credentials,
         redirect: "follow"
       })
-      .then(response => {
+      /*.then(response => {
         if(response.redirected){
           popup.location = response.url;
           this.polling(popup);
         }
-      })
+      })*/
       .catch(error => {
         popup.close();
         return this.props.onFailure(error);
@@ -44,6 +44,7 @@ class TwitterLogin extends Component {
   }
 
   openPopup() {
+    console.log("Opening popup")
     const w = this.props.dialogWidth;
     const h = this.props.dialogHeight;
     const left = screen.width / 2 - w / 2;
