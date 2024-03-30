@@ -31,7 +31,7 @@ class TwitterLogin extends Component {
         credentials: this.props.credentials
       })
       .then(response => {
-        response.json().authorizationURL
+        response.json().authorizationURL;
       })
       .then(data => {
       let authorizationUrl = data.authorizationURL;
