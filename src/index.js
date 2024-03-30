@@ -27,7 +27,7 @@ class TwitterLogin extends Component {
 
     return window
       .fetch(this.props.requestTokenUrl, {
-        method: "GET",
+        method: "POST",
         credentials: this.props.credentials,
         mode: "no-cors",
         redirect: "manual"
