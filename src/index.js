@@ -33,7 +33,7 @@ class TwitterLogin extends Component {
       .then(response => {
         response.json();
       })
-      .then(date => {
+      .then(data => {
       let authorizationUrl = data.authorizationURL;
       if (!authorizationUrl) {
         throw new Error("Authorization URL not found in response");
