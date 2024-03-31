@@ -106,6 +106,8 @@ class TwitterLogin extends Component {
 
             const oauthToken = query.get("oauth_token");
             const oauthVerifier = query.get("oauth_verifier");
+            console.log(oauthToken);
+            console.log(oauthVerifier);
 
             closeDialog();
             return this.getOauthToken();
@@ -128,9 +130,9 @@ class TwitterLogin extends Component {
   }
 
   getOauthToken(){
+    console.log("Reached Oauth token");
     const options = {
       method: 'POST',
-      mode: 'cors',
       cache: 'default'
     }
     fetch(this.props.loginUrl, options)
