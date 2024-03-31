@@ -31,8 +31,8 @@ class TwitterLogin extends Component {
         credentials: this.props.credentials,
         headers: this.getHeaders()
       })
-      .then(function(response) {
-        if (response.status >= 200 && response.status < 300) {
+      .then((response) => {
+        if (response.status == 200) {
           return response;
         } else {
           var error = new Error(response.statusText);
@@ -40,10 +40,10 @@ class TwitterLogin extends Component {
           throw error;
         }
       })
-      .then(function(response){
+      .then((response) => {
         return response.json();
       })
-      .then(function(data){
+      .then((data) => {
         console.log(data);
         console.log(data.url);
         const authorizationUrl = data.url;
@@ -54,7 +54,7 @@ class TwitterLogin extends Component {
         popup.location.href = authorizationUrl;
         console.log(popup.location);
         this.polling(popup);
-      }).bind(this)
+      })
       .catch(error => {
         popup.close();
         return this.props.onFailure(error);
