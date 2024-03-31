@@ -22,17 +22,6 @@ class TwitterLogin extends Component {
     return headers;
   }
 
-  checkStatus(response) {
-    if (response.status >= 200 && response.status < 300) {
-      return response
-    } else {
-      var error = new Error(response.statusText)
-      error.response = response
-      throw error
-    }
-  }
-  
-
   authenticate() {
     var popup = this.openPopup();
 
@@ -42,7 +31,15 @@ class TwitterLogin extends Component {
         credentials: this.props.credentials,
         headers: this.getHeaders()
       })
-      .then(function(status) {return checkStatus(status);})
+      .then(function(response) {
+        if (response.status >= 200 && response.status < 300) {
+          return response;
+        } else {
+          var error = new Error(response.statusText);
+          error.response = response;
+          throw error;
+        }
+      })
       .then(function(response){
         return response.json();
       })
