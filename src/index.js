@@ -27,7 +27,7 @@ class TwitterLogin extends Component {
 
     //removed window.fetch
     return fetch(this.props.requestTokenUrl, {
-        method: "POST",
+        method: "GET",
         credentials: this.props.credentials,
         headers: this.getHeaders()
       })
@@ -110,7 +110,7 @@ class TwitterLogin extends Component {
             console.log(oauthVerifier);
 
             closeDialog();
-            return this.getOauthToken();
+            return this.getOauthToken(oauthVerifier, oauthToken);
           } else {
             closeDialog();
             return this.props.onFailure(
@@ -129,13 +129,13 @@ class TwitterLogin extends Component {
     }, 500);
   }
 
-  getOauthToken(){
+  getOauthToken(oauthVerifier, oauthToken){
     console.log("Reached Oauth token");
     const options = {
-      method: 'POST',
+      method: 'GET',
       cache: 'default'
     }
-    fetch(this.props.loginUrl, options)
+    fetch(`${this.props.loginUrl}?oauth_verifier=${oauthVerifier}&oauth_token=${oauthToken}`, options)
     .then(response => {
       this.props.onSuccess(response);
     })
