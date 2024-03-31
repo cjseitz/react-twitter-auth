@@ -33,7 +33,7 @@ class TwitterLogin extends Component {
       })
       .then((response) => {
         if (response.redirected) {
-        popup.location.href = response.location;
+        popup.location.href = response.url;
         this.polling(popup);
         }
         else {
