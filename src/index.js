@@ -132,7 +132,7 @@ class TwitterLogin extends Component {
   getOauthToken(oauthVerifier, oauthToken){
     console.log("Reached Oauth token");
     const options = {
-      method: 'GET',
+      method: 'POST',
       cache: 'default'
     }
     fetch(`${this.props.loginUrl}?oauth_verifier=${oauthVerifier}&oauth_token=${oauthToken}`, options)
