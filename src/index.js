@@ -24,26 +24,24 @@ class TwitterLogin extends Component {
 
   authenticate() {
     var popup = this.openPopup();
+    let redirectResponse = fetch(this.props.requestTokenUrl, {
+      method: "POST",
+      credentials: this.props.credentials,
+      headers: this.getHeaders(),
+      redirect: "manual"
+    })
+    .catch(error => {
+      popup.close();
+      return this.props.onFailure(error);
+    });
 
-    return fetch(this.props.requestTokenUrl, {
-        method: "POST",
-        credentials: this.props.credentials,
-        headers: this.getHeaders(),
-        redirect: "manual"
-      })
-      .then((response) => {
-        if (response.redirected) {
-        popup.location.href = response.url;
-        this.polling(popup);
-        }
-        else {
-          throw new Error("Authentication redirect not found");
-        }
-      })
-      .catch(error => {
-        popup.close();
-        return this.props.onFailure(error);
-      });
+    if (redirectResponse.redirected) {
+    popup.location.href = redirectResponse.url;
+    return this.polling(popup);
+    }
+    else {
+      throw new Error("Authentication redirect not found");
+    }
   }
 
   openPopup() {
