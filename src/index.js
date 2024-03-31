@@ -25,7 +25,7 @@ class TwitterLogin extends Component {
   authenticate() {
     var popup = this.openPopup();
     fetch(this.props.requestTokenUrl, {
-      method: "POST",
+      method: "GET",
       credentials: this.props.credentials,
       headers: this.getHeaders(),
       redirect: "follow"
