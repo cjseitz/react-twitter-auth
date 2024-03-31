@@ -25,9 +25,8 @@ class TwitterLogin extends Component {
   authenticate() {
     var popup = this.openPopup();
 
-    //removed window.fetch
     return fetch(this.props.requestTokenUrl, {
-        method: "GET",
+        method: "POST",
         credentials: this.props.credentials,
         headers: this.getHeaders()
       })
@@ -44,15 +43,11 @@ class TwitterLogin extends Component {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
-        console.log(data.url);
         const authorizationUrl = data.url;
-        console.log(authorizationUrl);
         if (!authorizationUrl) {
           throw new Error("Authorization URL not found in response");
         }
         popup.location.href = authorizationUrl;
-        console.log(popup.location);
         this.polling(popup);
       })
       .catch(error => {
@@ -83,7 +78,6 @@ class TwitterLogin extends Component {
   }
 
   polling(popup) {
-    console.log("Reached polling")
     const polling = setInterval(() => {
       if (!popup || popup.closed || popup.closed === undefined) {
         clearInterval(polling);
@@ -101,16 +95,13 @@ class TwitterLogin extends Component {
           !popup.location.hostname == ""
         ) {
           if (popup.location.search) {
-            console.log("Searching popup location")
-            const query = new URLSearchParams(popup.location.search);
+            const params = new URLSearchParams(popup.location.search);
 
-            const oauthToken = query.get("oauth_token");
-            const oauthVerifier = query.get("oauth_verifier");
-            console.log(oauthToken);
-            console.log(oauthVerifier);
+            params.append("oauth_verifier", oauthVerifier);
+            params.append("oauth_token", oauthToken);
 
             closeDialog();
-            return this.getOauthToken(oauthVerifier, oauthToken);
+            return this.getOauthToken(params.toString());
           } else {
             closeDialog();
             return this.props.onFailure(
@@ -129,13 +120,12 @@ class TwitterLogin extends Component {
     }, 500);
   }
 
-  getOauthToken(oauthVerifier, oauthToken){
-    console.log("Reached Oauth token");
+  getOauthToken(params){
     const options = {
       method: 'POST',
       cache: 'default'
     }
-    fetch(`${this.props.loginUrl}?oauth_verifier=${oauthVerifier}&oauth_token=${oauthToken}`, options)
+    fetch(`${this.props.loginUrl}?${params}`, options)
     .then(response => {
       this.props.onSuccess(response);
     })
