@@ -32,8 +32,8 @@ class TwitterLogin extends Component {
         redirect: "manual"
       })
       .then((response) => {
-        if (response.redirected && response.status == 302) {
-        popup.location.href = response.url;
+        if (response.redirected) {
+        popup.location.href = response.location;
         this.polling(popup);
         }
         else {
