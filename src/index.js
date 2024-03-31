@@ -28,27 +28,17 @@ class TwitterLogin extends Component {
     return fetch(this.props.requestTokenUrl, {
         method: "POST",
         credentials: this.props.credentials,
-        headers: this.getHeaders()
+        headers: this.getHeaders(),
+        redirect: "manual"
       })
       .then((response) => {
-        if (response.status == 200) {
-          return response;
-        } else {
-          var error = new Error(response.statusText);
-          error.response = response;
-          throw error;
-        }
-      })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const authorizationUrl = data.authUrl;
-        if (!authorizationUrl) {
-          throw new Error("Authorization URL not found in response");
-        }
-        popup.location.href = authorizationUrl;
+        if (response.redirected && response.status == 302) {
+        popup.location.href = response.url;
         this.polling(popup);
+        }
+        else {
+          throw new Error("Authentication redirect not found");
+        }
       })
       .catch(error => {
         popup.close();
