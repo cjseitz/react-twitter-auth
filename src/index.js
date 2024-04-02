@@ -95,10 +95,10 @@ class TwitterLogin extends Component {
           !popup.location.hostname == ""
         ) {
           if (popup.location.search) {
-            const params = new URLSearchParams(popup.location.search);
+            const query = new URLSearchParams(popup.location.search);
 
-            params.append("oauth_verifier", oauthVerifier);
-            params.append("oauth_token", oauthToken);
+            oauthVerifier = query.get("oauth_verifier");
+            oauthToken = query.get("oauth_token");
 
             closeDialog();
             return this.getOauthToken(params.toString());
@@ -120,12 +120,12 @@ class TwitterLogin extends Component {
     }, 500);
   }
 
-  getOauthToken(params){
+  getOauthToken(oauthVerifier, oauthToken){
     const options = {
       method: 'POST',
       cache: 'default'
     }
-    fetch(`${this.props.loginUrl}?${params}`, options)
+    fetch(`${this.props.loginUrl}?oauth_verifier=${oauthVerifier}&oauth_token=${oauthToken}`, options)
     .then(response => {
       this.props.onSuccess(response);
     })
