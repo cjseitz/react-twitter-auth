@@ -97,8 +97,8 @@ class TwitterLogin extends Component {
           if (popup.location.search) {
             const query = new URLSearchParams(popup.location.search);
 
-            oauthVerifier = query.get("oauth_verifier");
-            oauthToken = query.get("oauth_token");
+            const oauthVerifier = query.get("oauth_verifier");
+            const oauthToken = query.get("oauth_token");
 
             closeDialog();
             return this.getOauthToken(oauthVerifier, oauthToken);
