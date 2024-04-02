@@ -123,6 +123,7 @@ class TwitterLogin extends Component {
   getOauthToken(oauthVerifier, oauthToken){
     const options = {
       method: 'POST',
+      credentials: 'include',
       cache: 'default'
     }
     fetch(`${this.props.loginUrl}?oauth_verifier=${oauthVerifier}&oauth_token=${oauthToken}`, options)
