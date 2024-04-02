@@ -125,7 +125,7 @@ class TwitterLogin extends Component {
       method: 'POST',
       cache: 'default'
     }
-    fetch(`${this.props.loginUrl}?oauth_verifier=${oauthVerifier}&oauth_token=${oauthToken}`, options)
+    return fetch(`${this.props.loginUrl}?oauth_verifier=${oauthVerifier}&oauth_token=${oauthToken}`, options)
     .then(response => {
       this.props.onSuccess(response);
     })
