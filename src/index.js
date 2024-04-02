@@ -27,7 +27,7 @@ class TwitterLogin extends Component {
 
     return fetch(this.props.requestTokenUrl, {
         method: "POST",
-        credentials: this.props.credentials,
+        credentials: 'include',
         headers: this.getHeaders()
       })
       .then((response) => {
@@ -124,7 +124,7 @@ class TwitterLogin extends Component {
     const options = {
       method: 'POST',
       credentials: 'include',
-      cache: 'default'
+      cache: 'default', 
     }
     fetch(`${this.props.loginUrl}?oauth_verifier=${oauthVerifier}&oauth_token=${oauthToken}`, options)
     .then(response => {
