@@ -101,7 +101,7 @@ class TwitterLogin extends Component {
             oauthToken = query.get("oauth_token");
 
             closeDialog();
-            return this.getOauthToken(params.toString());
+            return this.getOauthToken(oauthVerifier, oauthToken);
           } else {
             closeDialog();
             return this.props.onFailure(
